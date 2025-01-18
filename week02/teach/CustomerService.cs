@@ -13,8 +13,9 @@ public class CustomerService {
         // Test 1
         // Scenario: 
         // Expected Result: 
-        Console.WriteLine("Test 1");
-
+        Console.WriteLine("Test 1 - Customer List size");
+        var customerList = new CustomerService(6);
+        Console.WriteLine(customerList);
         // Defect(s) Found: 
 
         Console.WriteLine("=================");
@@ -22,13 +23,25 @@ public class CustomerService {
         // Test 2
         // Scenario: 
         // Expected Result: 
-        Console.WriteLine("Test 2");
-
+        Console.WriteLine("Test 2 - Trying to add a new customer when the list is full");
+        var size = 2;
+        var cycle = 0;
+        var customerList2 = new CustomerService(size);
+        while(cycle < size) {
+            customerList2.AddNewCustomer();
+            cycle++;
+        }
+        Console.WriteLine(customerList2);
+        customerList2.AddNewCustomer();
         // Defect(s) Found: 
 
         Console.WriteLine("=================");
 
         // Add more Test Cases As Needed Below
+        Console.WriteLine("Test 3 - A message is displayed when we use .ServeCustomer and the list is empty");
+        customerList2.ServeCustomer();
+        Console.WriteLine(customerList2);
+        customerList2.ServeCustomer();
     }
 
     private readonly List<Customer> _queue = new();
@@ -67,7 +80,7 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        if (_queue.Count >= _maxSize) {
             Console.WriteLine("Maximum Number of Customers in Queue.");
             return;
         }
@@ -89,6 +102,10 @@ public class CustomerService {
     /// </summary>
     private void ServeCustomer() {
         _queue.RemoveAt(0);
+        if (_queue.Count <= 0) {
+            Console.WriteLine("No Customers in Queue.");
+            return;
+        }
         var customer = _queue[0];
         Console.WriteLine(customer);
     }

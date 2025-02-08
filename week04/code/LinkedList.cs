@@ -33,6 +33,16 @@ public class LinkedList : IEnumerable<int>
     public void InsertTail(int value)
     {
         // TODO Problem 1
+        Node newNode = new(value);
+        if (_tail is null) {
+            _head = newNode;
+            _tail = newNode;
+        }
+        else {
+            newNode.Next = _tail;
+            _tail.Prev = newNode;
+            _tail = newNode;
+        }
     }
 
 
@@ -65,6 +75,16 @@ public class LinkedList : IEnumerable<int>
     public void RemoveTail()
     {
         // TODO Problem 2
+        if(_head == _tail) {
+            _head = null;
+            _tail = null;
+        }
+
+        else if (_tail is not null)
+        {
+            _tail.Next!.Prev = null;
+            _tail = _tail.Next;
+        }
     }
 
     /// <summary>
@@ -109,6 +129,19 @@ public class LinkedList : IEnumerable<int>
     public void Remove(int value)
     {
         // TODO Problem 3
+        Node? curr = _head;
+        while (curr is not null) {
+            if(curr.Data == value) {
+                if (curr == _head) {
+                    RemoveHead();
+                }
+                else if (curr == _tail) {
+                    RemoveTail();
+                }
+                return;
+            }
+            curr = curr.Next;
+        }
     }
 
     /// <summary>
@@ -173,3 +206,32 @@ public static class IntArrayExtensionMethods {
         return "<IEnumerable>{" + string.Join(", ", array.Cast<int>()) + "}";
     }
 }
+///All of the files for this assignment will be found in the course Git repository in the week04/code folder. You will commit changes to your own repository for your submission for this assignment.
+
+///Insert Tail
+///Implement the InsertTail function in the LinkedList class. The function should add a new node (Node) at the end of the linked list. Hint: Consider the code already written for InsertHead.
+
+///Remove Tail
+///Implement the RemoveTail function in the LinkedList class. The function should remove the last node. Hint: Consider the code already written for RemoveHead.
+
+///Remove
+///Implement the Remove function in the LinkedList class. The function will need to search for the node (starting at the head) that contains the value and then remove that one node. The function should not continue searching the list once a match has been found and the node has been deleted. Hint: You may be able to reuse the RemoveHead and RemoveTail functions.
+
+///Replace
+///Implement the Replace function in the LinkedList class. The function should search for all nodes that are equal to oldValue and then replace the value in those nodes with newValue. Unlike the remove function, this function should continue searching through the list to replace all values that match oldValue.
+
+///Reversed Iterator
+///The GetEnumerator function provides the ability to iterate forward through a LinkedList object using a foreach loop such as foreach (var item in myLinkedList). When a foreach loop starts, the GetEnumerator function will start. Each time the yield return statement runs, it will provide a new value to the foreach loop and pause the GetEnumerator function. When the foreach loop goes to the next iteration, it will continue running the GetEnumerator function again until it gets to the next yield return which will provide the next value to the foreach loop. You can use the following test code to see how the GetEnumerator function works:
+
+
+///foreach(var item in myLinkedList)
+///{
+ ///   Debug.WriteLine(item);
+///}
+///The Reverse function is used to iterate backwards. Implement the Reverse function in the LinkedList class. Hint: Pattern your solution after the GetEnumerator function that was already written for you and that was described above. To test the Reverse function, you can use the following code:
+
+
+///foreach(var item in myLinkedList.Reverse())
+///{
+ ///   Debug.WriteLine(item);
+///} 
